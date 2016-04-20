@@ -41,7 +41,7 @@
     Can of the computer to fetch disk information from  
 
     .PARAMETER Unit
-    Target unit for disk space vvalue (default = GB)
+    Target unit for disk space value (default = GB)
 
     .PARAMETER AllExchangeServer
     Switch to fetch disk space data from all Exchange Servers
