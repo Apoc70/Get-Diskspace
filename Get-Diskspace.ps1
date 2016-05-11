@@ -7,7 +7,7 @@
     THIS CODE IS MADE AVAILABLE AS IS, WITHOUT WARRANTY OF ANY KIND. THE ENTIRE  
     RISK OF THE USE OR THE RESULTS FROM THE USE OF THIS CODE REMAINS WITH THE USER. 
 
-    Version 1.1, 2016-04-18
+    Version 1.11, 2016-05-11
 
     Please send ideas, comments and suggestions to support@granikos.eu 
 
@@ -36,6 +36,7 @@
     -------------------------------------------------------------------------------- 
     1.0      Initial community release 
     1.1      Email reports added
+    1.11     Send email issue fixed
 
     .PARAMETER ComputerName
     Can of the computer to fetch disk information from  
@@ -197,6 +198,6 @@ else {
 
 if($SendMail) {
     [string]$Body = ConvertTo-Html -Body $global:Html -Title "Status" -Head $head
-    Send-Mail -From $MailFrom -To $MailTo -SmtpServer $MailServer -MessageBody $Body -Subject $ReportTitle  
+    Send-MailMessage -From $MailFrom -To $Mailto -SmtpServer $MailServer -Body $Body -BodyAsHtml -Subject $ReportTitle
     Write-Output "Email sent to $($MailTo)"
 }
