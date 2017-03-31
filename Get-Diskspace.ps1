@@ -12,7 +12,7 @@
   Please send ideas, comments and suggestions to support@granikos.eu 
 
   .LINK 
-  More information can be found at http://www.granikos.eu/en/scripts
+  http://www.granikos.eu/en/scripts
 
   .DESCRIPTION 
   This script fetches disk/volume information from a given computer and displays 
