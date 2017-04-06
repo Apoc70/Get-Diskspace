@@ -1,7 +1,7 @@
 # Get-Diskspace.ps1
 Fetches disk/volume information from a given computer
 
-##Description
+## Description
 This script fetches disk/volume information from a given computer and displays 
 
 - Volume name
@@ -13,32 +13,32 @@ This script fetches disk/volume information from a given computer and displays
 
 With -SendMail switch no data is returned to the console.
 
-##Inputs
-.PARAMETER ComputerName
+## Parameters
+### ComputerName
 Can of the computer to fetch disk information from  
 
-.PARAMETER Unit
+### Unit
 Target unit for disk space value (default = GB)
 
-.PARAMETER AllExchangeServer
+### AllExchangeServer
 Switch to fetch disk space data from all Exchange Servers
 
-.PARAMETER SendMail
+### SendMail
 Switch to send an Html report
 
-.PARAMETER MailFrom
+### MailFrom
 Email address of report sender
 
-.PARAMETER MailTo
+### MailTo
 Email address of report recipient
 
-.PARAMETER MailServer
+### MailServer
 SMTP Server for email report
 
-##Outputs
+## Outputs
 The disk volumes table is sent either to the console or sent as html email to a given recipient.
 
-##Examples
+## Examples
 ```
 .\Get-Diskpace.ps1 -ComputerName MYSERVER
 ```
@@ -54,24 +54,23 @@ Get disk information from computer MYSERVER in MB
 ```
 Get disk information from all Exchange servers and send html email
 
-##TechNet Gallery
+## TechNet Gallery
 Find the script at TechNet Gallery
-* 
+* https://gallery.technet.microsoft.com/Get-Diskspace-report-for-3aedf6ac
 
-
-##Credits
+## Credits
 Written by: Thomas Stensitzki
 
-Find me online:
+## Social
 
 * My Blog: http://justcantgetenough.granikos.eu
 * Archived Blog: http://www.sf-tools.net/
-* Twitter:	https://twitter.com/stensitzki
+* Twitter: https://twitter.com/stensitzki
 * LinkedIn:	http://de.linkedin.com/in/thomasstensitzki
-* Github:	https://github.com/Apoc70
+* Github: https://github.com/Apoc70
 
 For more Office 365, Cloud Security and Exchange Server stuff checkout the services provided by Granikos GmbH & Co. KG
 
-* Blog:     http://blog.granikos.eu/
-* Website:	https://www.granikos.eu/en/
-* Twitter:	https://twitter.com/granikos_de
+* Blog: http://blog.granikos.eu/
+* Website: https://www.granikos.eu/en/
+* Twitter: https://twitter.com/granikos_de
