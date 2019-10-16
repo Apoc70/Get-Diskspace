@@ -7,7 +7,7 @@
   THIS CODE IS MADE AVAILABLE AS IS, WITHOUT WARRANTY OF ANY KIND. THE ENTIRE  
   RISK OF THE USE OR THE RESULTS FROM THE USE OF THIS CODE REMAINS WITH THE USER. 
 
-  Version 1.1.3, 2017-03-31
+  Version 1.3, 2019-10-16
 
   Please send ideas, comments and suggestions to support@granikos.eu 
 
@@ -28,9 +28,9 @@
      
   .NOTES 
   Requirements 
-  - Windows Server 2012 R2  
-  - Remote WMI
-  - Exchange Server Management Shell
+  - Windows Server 2012 R2+  
+  - Remote WMI access
+  - Exchange Server Management Shell (for AllExchangeServer switch)
     
   Revision History 
   -------------------------------------------------------------------------------- 
@@ -39,6 +39,7 @@
   1.11     Send email issue fixed
   1.12     PowerShell hygiene applied
   1.1.3    Version number adjusted, minor PowerShell adjustments
+  1.3      Tested for Windows Server 2019, minor PowerShell adjustments
 
   .PARAMETER ComputerName
   Can of the computer to fetch disk information from  
@@ -80,8 +81,8 @@
 
 [CmdletBinding()]
 param(
-		[string]$ComputerName = $env:COMPUTERNAME,
-		[string]$Unit = 'GB',
+    [string]$ComputerName = $env:COMPUTERNAME,
+    [string]$Unit = 'GB',
     [switch]$AllExchangeServer,
     [switch]$SendMail,
     [string]$MailFrom = '',
@@ -116,14 +117,14 @@ function Get-DiskspaceFromComputer {
 
         Write-Output ('Fetching Volume Data from {0}' -f ($ServerName))
 
-        $wmi = Get-WmiObject Win32_Volume -ComputerName $ServerName | Select-Object Name, @{Label="Capacity ($Unit)";Expression={[decimal]::round($_.Capacity/$ConvertTo)}}, @{Label="FreeSpace ($Unit)";Expression={[decimal]::round($_.FreeSpace/$ConvertTo)}}, BootVolume, SystemVolume, FileSystem | Sort-Object Name 
-        $global:Html += $wmi | ConvertTo-Html -Fragment -PreContent ('<h2>Server {0}</h2>' -f ($ServerName))
+        $WmiResult = Get-WmiObject Win32_Volume -ComputerName $ServerName | Select-Object Name, @{Label="Capacity ($Unit)";Expression={[decimal]::round($_.Capacity/$ConvertTo)}}, @{Label="FreeSpace ($Unit)";Expression={[decimal]::round($_.FreeSpace/$ConvertTo)}}, BootVolume, SystemVolume, FileSystem | Sort-Object Name 
+        $global:Html += $WmiResult | ConvertTo-Html -Fragment -PreContent ('<h2>Server {0}</h2>' -f ($ServerName))
     }
 
-    $wmi
+    $WmiResult
 }
 
-Function Check-SendMail {
+Function Test-SendMail {
      if( ($SendMail) -and ($MailFrom -ne '') -and ($MailTo -ne '') -and ($MailServer -ne '') ) {
         return $true
      }
@@ -133,7 +134,7 @@ Function Check-SendMail {
 }
 
 #### MAIN
-If (($SendMail) -and (!(Check-SendMail))) {
+If (($SendMail) -and (!(Test-SendMail))) {
     Throw 'If -SendMail specified, -MailFrom, -MailTo and -MailServer must be specified as well!'
 }
 

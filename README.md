@@ -4,7 +4,7 @@ Fetches disk/volume information from a given computer
 
 ## Description
 
-This script fetches disk/volume information from a given computer and displays 
+This script fetches disk/volume information from a given computer and displays
 
 - Volume name
 - Capacity
@@ -14,6 +14,12 @@ This script fetches disk/volume information from a given computer and displays
 - File System Type
 
 With -SendMail switch no data is returned to the console.
+
+## Requirements
+
+- Windows Server 2012R2, 2016, 2019
+- Exchange Server 2013+ (for AllExchangeServer switch)
+- WMI access to remote computers
 
 ## Parameters
 
@@ -82,13 +88,13 @@ Written by: Thomas Stensitzki
 
 Stay connected:
 
-* My Blog: [http://justcantgetenough.granikos.eu](http://justcantgetenough.granikos.eu)
-* Twitter: [https://twitter.com/stensitzki](https://twitter.com/stensitzki)
-* LinkedIn: [http://de.linkedin.com/in/thomasstensitzki](http://de.linkedin.com/in/thomasstensitzki)
-* Github: [https://github.com/Apoc70](https://github.com/Apoc70)
+- My Blog: [http://justcantgetenough.granikos.eu](http://justcantgetenough.granikos.eu)
+- Twitter: [https://twitter.com/stensitzki](https://twitter.com/stensitzki)
+- LinkedIn: [http://de.linkedin.com/in/thomasstensitzki](http://de.linkedin.com/in/thomasstensitzki)
+- Github: [https://github.com/Apoc70](https://github.com/Apoc70)
 
 For more Office 365, Cloud Security, and Exchange Server stuff checkout services provided by Granikos
 
-* Blog: [http://blog.granikos.eu](http://blog.granikos.eu)
-* Website: [https://www.granikos.eu/en/](https://www.granikos.eu/en/)
-* Twitter: [https://twitter.com/granikos_de](https://twitter.com/granikos_de)
+- Blog: [http://blog.granikos.eu](http://blog.granikos.eu)
+- Website: [https://www.granikos.eu/en/](https://www.granikos.eu/en/)
+- Twitter: [https://twitter.com/granikos_de](https://twitter.com/granikos_de)
