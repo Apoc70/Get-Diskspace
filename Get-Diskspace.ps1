@@ -7,7 +7,7 @@
   THIS CODE IS MADE AVAILABLE AS IS, WITHOUT WARRANTY OF ANY KIND. THE ENTIRE  
   RISK OF THE USE OR THE RESULTS FROM THE USE OF THIS CODE REMAINS WITH THE USER. 
 
-  Version 1.3, 2019-10-16
+  Version 1.4, 2021-11-12
 
   Please send ideas, comments and suggestions to support@granikos.eu 
 
@@ -40,6 +40,7 @@
   1.12     PowerShell hygiene applied
   1.1.3    Version number adjusted, minor PowerShell adjustments
   1.3      Tested for Windows Server 2019, minor PowerShell adjustments
+  1.4      TLS 1.2 added
 
   .PARAMETER ComputerName
   Can of the computer to fetch disk information from  
@@ -95,6 +96,9 @@ $Unit = $Unit.ToUpper()
 $now = Get-Date -Format F
 $ReportTitle = ('Diskspace Report - {0}' -f ($now))
 $global:Html = ''
+
+# Set TLS protocol to TLS 1.2
+[System.Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 switch($Unit){
     'GB' {
