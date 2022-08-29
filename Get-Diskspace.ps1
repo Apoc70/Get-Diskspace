@@ -1,40 +1,40 @@
-<# 
-  .SYNOPSIS 
+<#
+  .SYNOPSIS
   Fetches disk/volume information from a given computer
 
-  Thomas Stensitzki 
+  Thomas Stensitzki
 
-  THIS CODE IS MADE AVAILABLE AS IS, WITHOUT WARRANTY OF ANY KIND. THE ENTIRE  
-  RISK OF THE USE OR THE RESULTS FROM THE USE OF THIS CODE REMAINS WITH THE USER. 
+  THIS CODE IS MADE AVAILABLE AS IS, WITHOUT WARRANTY OF ANY KIND. THE ENTIRE
+  RISK OF THE USE OR THE RESULTS FROM THE USE OF THIS CODE REMAINS WITH THE USER.
 
   Version 1.4, 2021-11-12
 
-  Please send ideas, comments and suggestions to support@granikos.eu 
+  Please use GitHub repository for ideas, comments, and suggestions.
 
-  .LINK 
-  http://www.granikos.eu/en/scripts
+  .LINK
+  http://scripts.granikos.eu
 
-  .DESCRIPTION 
-  This script fetches disk/volume information from a given computer and displays 
+  .DESCRIPTION
+  This script fetches disk/volume information from a given computer and displays
 
   * Volume name
   * Capacity
   * Free Space
   * Boot Volume Status
   * System Volume Status
-  * File Systemtype 
+  * File Systemtype
 
-  With -SendMail switch no data is returned to the console. 
-     
-  .NOTES 
-  Requirements 
-  - Windows Server 2012 R2+  
+  With -SendMail switch no data is returned to the console.
+
+  .NOTES
+  Requirements
+  - Windows Server 2012 R2+
   - Remote WMI access
   - Exchange Server Management Shell (for AllExchangeServer switch)
-    
-  Revision History 
-  -------------------------------------------------------------------------------- 
-  1.0      Initial community release 
+
+  Revision History
+  --------------------------------------------------------------------------------
+  1.0      Initial community release
   1.1      Email reports added
   1.11     Send email issue fixed
   1.12     PowerShell hygiene applied
@@ -43,7 +43,7 @@
   1.4      TLS 1.2 added
 
   .PARAMETER ComputerName
-  Can of the computer to fetch disk information from  
+  Can of the computer to fetch disk information from
 
   .PARAMETER Unit
   Target unit for disk space value (default = GB)
@@ -63,9 +63,9 @@
   .PARAMETER MailServer
   SMTP Server for email report
 
-  .EXAMPLE 
+  .EXAMPLE
   Get disk information from computer MYSERVER
-    
+
   Get-Diskpace.ps1 -ComputerName MYSERVER
 
   .EXAMPLE
@@ -114,14 +114,14 @@ function Get-DiskspaceFromComputer {
   param(
     [string] $ServerName
   )
-    
+
     if(($Unit -eq 'GB') -or ($Unit -eq 'MB')) {
 
         $ServerName = $ServerName.ToUpper()
 
         Write-Output ('Fetching Volume Data from {0}' -f ($ServerName))
 
-        $WmiResult = Get-WmiObject Win32_Volume -ComputerName $ServerName | Select-Object Name, @{Label="Capacity ($Unit)";Expression={[decimal]::round($_.Capacity/$ConvertTo)}}, @{Label="FreeSpace ($Unit)";Expression={[decimal]::round($_.FreeSpace/$ConvertTo)}}, BootVolume, SystemVolume, FileSystem | Sort-Object Name 
+        $WmiResult = Get-WmiObject Win32_Volume -ComputerName $ServerName | Select-Object Name, @{Label="Capacity ($Unit)";Expression={[decimal]::round($_.Capacity/$ConvertTo)}}, @{Label="FreeSpace ($Unit)";Expression={[decimal]::round($_.FreeSpace/$ConvertTo)}}, BootVolume, SystemVolume, FileSystem | Sort-Object Name
         $global:Html += $WmiResult | ConvertTo-Html -Fragment -PreContent ('<h2>Server {0}</h2>' -f ($ServerName))
     }
 
@@ -167,14 +167,14 @@ table{
     color: black;
     margin-bottom: 10px;
 }
- 
+
 table td{
     font-size: 12px;
     padding-left: 0px;
     padding-right: 20px;
     text-align: left;
 }
- 
+
 table th {
     font-size: 12px;
     font-weight: bold;
@@ -187,13 +187,13 @@ table th {
 "@
 
 if($AllExchangeServer) {
-    $servers = Get-ExchangeServer | Sort-Object Name 
+    $servers = Get-ExchangeServer | Sort-Object Name
 
     foreach($server in $servers) {
 
-        $output = Get-DiskspaceFromComputer -ServerName $server.Name 
+        $output = Get-DiskspaceFromComputer -ServerName $server.Name
 
-        if(!($SendMail)) { $output | Format-Table -AutoSize } 
+        if(!($SendMail)) { $output | Format-Table -AutoSize }
 
     }
 }
@@ -201,15 +201,15 @@ else {
 
     $output = Get-DiskspaceFromComputer -ServerName $ComputerName
 
-    if(!($SendMail)) { $output | Format-Table -AutoSize } 
+    if(!($SendMail)) { $output | Format-Table -AutoSize }
 
 }
 
 if($SendMail) {
 
     [string]$Body = ConvertTo-Html -Body $global:Html -Title 'Status' -Head $head
-    
+
     Send-MailMessage -From $MailFrom -To $Mailto -SmtpServer $MailServer -Body $Body -BodyAsHtml -Subject $ReportTitle
-    
+
     Write-Output ('Email sent to {0}' -f ($MailTo))
 }
