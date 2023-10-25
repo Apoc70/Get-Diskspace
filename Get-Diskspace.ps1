@@ -12,7 +12,7 @@
   Please use GitHub repository for ideas, comments, and suggestions.
 
   .LINK
-  http://scripts.granikos.eu
+  https://scripts.granikos.eu
 
   .DESCRIPTION
   This script fetches disk/volume information from a given computer and displays
